@@ -2,6 +2,8 @@
 
 Shared illuminated-manuscript UI primitives, ornaments, and Tailwind v4 theme.
 
+![@guild/ui showcase](./assets/showcase.png)
+
 ## Install (consumer app)
 
 While developing locally, point your app's `package.json` at this directory:
