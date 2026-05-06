@@ -1,0 +1,639 @@
+/* Shared theme + base styles for @guild/ui consumers.
+   The consumer's CSS must `@import "tailwindcss"` itself before importing
+   this file. This keeps tailwindcss resolution scoped to the consumer's
+   node_modules and avoids requiring it as a dependency of @guild/ui. */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Adaptive color palette */
+  --color-parchment-100: var(--p-100);
+  --color-parchment-200: var(--p-200);
+  --color-ink-100: var(--i-100);
+  --color-ink-200: var(--i-200);
+  --color-charcoal-100: var(--c-100);
+  --color-charcoal-200: var(--c-200);
+  --color-charcoal-300: var(--c-300);
+
+  /* Constant colors — remapped onto the manuscript palette so legacy
+     utility classes (text-seal-gold, text-decay-amber, …) inherit the
+     illuminated look without per-component edits. */
+  --color-seal-gold: #b8893a; /* was #d4af37 — now gilt */
+  --color-decay-amber: #9a1f1a; /* was #ffbf00 — now rubric */
+
+  /* Illuminated-manuscript palette (light theme only) */
+  --color-rubric: #9a1f1a;
+  --color-rubric-deep: #6e1410;
+  --color-gilt: #b8893a;
+  --color-gilt-bright: #d4af37;
+  --color-ink-brown: #3a2a18;
+  --color-parchment-edge: #e8d9b3;
+
+  /* Card surface tones — match the sidebar (.parchment-surface,
+     #faf3e3) so cards feel like the same paper, not a stack of
+     differently-tinted sheets. Used by the global <Card /> variants. */
+  --color-card-surface: #faf3e3;
+  --color-card-surface-gold: #f7eccd;
+  --color-card-surface-amber: #faeed5;
+  --color-card-surface-ghost: #fbf6e8;
+
+  /* Card inner-ring colors — soft hairline inside the border, tinted to
+     match the variant. Kept as rgba so callers don't need to recompose
+     alpha against the variable. */
+  --color-card-ring: rgba(184, 137, 58, 0.14);
+  --color-card-ring-strong: rgba(184, 137, 58, 0.22);
+  --color-card-ring-rubric: rgba(154, 31, 26, 0.14);
+  --color-card-ring-ink: rgba(58, 42, 24, 0.08);
+
+  /* Fonts */
+  --font-serif: "EB Garamond", serif;
+  --font-display: "EB Garamond", serif;
+  --font-insular: "UnifrakturMaguntia", "Cardo", "EB Garamond", serif;
+
+  /* Type scale — bumped so the smallest tier is still comfortably
+     readable on parchment. text-sm is the floor for body/meta. */
+  --text-sm: 1rem;          /* was 0.875rem (14px) → 16px */
+  --text-sm--line-height: 1.55;
+  --text-lg: 1.1875rem;     /* was 1.125rem (18px) → 19px */
+  --text-lg--line-height: 1.65;
+
+  /* shadcn/ui semantic colors */
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  /* Border radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Custom animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+/* Accordion keyframes — used by Radix Accordion */
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+/* Enter/exit keyframes — replaces tailwindcss-animate plugin.
+   Used by shadcn/ui Dialog, Select, DropdownMenu, Tooltip */
+@keyframes enter {
+  from {
+    opacity: var(--tw-enter-opacity, 1);
+    transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0)
+      scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1));
+  }
+}
+
+@keyframes exit {
+  to {
+    opacity: var(--tw-exit-opacity, 1);
+    transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0)
+      scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1));
+  }
+}
+
+/* Enter/exit animation utilities (replaces tailwindcss-animate) */
+@utility animate-in { animation: enter 150ms ease forwards; }
+@utility animate-out { animation: exit 150ms ease forwards; }
+@utility fade-in-0 { --tw-enter-opacity: 0; }
+@utility fade-out-0 { --tw-exit-opacity: 0; }
+@utility zoom-in-95 { --tw-enter-scale: 0.95; }
+@utility zoom-out-95 { --tw-exit-scale: 0.95; }
+@utility slide-in-from-top-2 { --tw-enter-translate-y: -0.5rem; }
+@utility slide-in-from-right-2 { --tw-enter-translate-x: 0.5rem; }
+@utility slide-in-from-bottom-2 { --tw-enter-translate-y: 0.5rem; }
+@utility slide-in-from-left-2 { --tw-enter-translate-x: -0.5rem; }
+@utility slide-in-from-left-half { --tw-enter-translate-x: -50%; }
+@utility slide-in-from-top-48pct { --tw-enter-translate-y: -48%; }
+@utility slide-out-to-left-half { --tw-exit-translate-x: -50%; }
+@utility slide-out-to-top-48pct { --tw-exit-translate-y: -48%; }
+
+:root {
+  /* Light theme values.
+     Ink + charcoal tokens point at the manuscript ink-brown family so
+     text-ink-200, border-charcoal-300, etc. read as illuminated. */
+  --p-100: #fcf8ec;
+  --p-200: #f4f1ea;
+  --i-100: #3a2a18; /* was #002b5c — now ink-brown */
+  --i-200: #2a1d10; /* was #001f3f — deeper ink-brown */
+  --c-100: #3a2a18; /* was #2a2a2a — ink-brown */
+  --c-200: #2a1d10;
+  --c-300: #1a1108;
+
+  /* Scrollbar colors — muted gilt to sit on parchment without shouting */
+  --scrollbar-thumb: rgba(184, 137, 58, 0.35);
+  --scrollbar-thumb-hover: rgba(184, 137, 58, 0.6);
+
+  /* Animation timing */
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+
+  /* shadcn/ui CSS variables — parchment-tuned light theme */
+  --background: 40 60% 97%;
+  --foreground: 30 15% 10%;
+  --card: 40 40% 98%;
+  --card-foreground: 30 15% 10%;
+  --popover: 40 40% 98%;
+  --popover-foreground: 30 15% 10%;
+  --primary: 210 100% 18%;
+  --primary-foreground: 40 60% 97%;
+  --secondary: 35 20% 93%;
+  --secondary-foreground: 30 20% 12%;
+  --muted: 35 20% 93%;
+  --muted-foreground: 30 8% 46%;
+  --accent: 35 20% 93%;
+  --accent-foreground: 30 20% 12%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 35 15% 85%;
+  --input: 35 15% 85%;
+  --ring: 210 100% 18%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* Dark Theme Values - The values themselves flip */
+  --p-100: #121212;
+  --p-200: #1a1a1a;
+  --i-100: #fffcf5;
+  --i-200: #f4f1ea;
+  --c-100: #fffcf5;
+  --c-200: #f4f1ea;
+  --c-300: #fffcf5;
+
+  --scrollbar-thumb: #475569;
+  --scrollbar-thumb-hover: #64748b;
+
+  /* shadcn/ui dark mode variables */
+  --background: 0 0% 7%;
+  --foreground: 40 60% 97%;
+  --card: 0 0% 7%;
+  --card-foreground: 40 60% 97%;
+  --popover: 0 0% 7%;
+  --popover-foreground: 40 60% 97%;
+  --primary: 40 60% 97%;
+  --primary-foreground: 0 0% 7%;
+  --secondary: 220 13% 18%;
+  --secondary-foreground: 40 60% 97%;
+  --muted: 220 13% 18%;
+  --muted-foreground: 220 10% 65%;
+  --accent: 220 13% 18%;
+  --accent-foreground: 40 60% 97%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 40 60% 97%;
+  --border: 220 13% 18%;
+  --input: 220 13% 18%;
+  --ring: 40 60% 97%;
+}
+
+/* Prevent horizontal overflow */
+html {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  background-color: var(--p-100);
+  background-image:
+    radial-gradient(ellipse at top left, rgba(232, 217, 179, 0.14), transparent 60%),
+    radial-gradient(ellipse at bottom right, rgba(232, 217, 179, 0.18), transparent 65%);
+  color: var(--c-300);
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Subtle body-level parchment grain — applies to regular pages.
+   Ceremonial pages layer .parchment-grain on a Charter for stronger texture. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.25;
+  mix-blend-mode: multiply;
+  filter: url(#parchment-grain);
+  background: #fff;
+}
+.dark body { background-image: none; }
+.dark body::before { display: none; }
+
+/* Smooth dark mode transition */
+html.transition-colors,
+html.transition-colors *,
+html.transition-colors *::before,
+html.transition-colors *::after {
+  transition:
+    background-color var(--duration-normal) ease-out,
+    border-color var(--duration-normal) ease-out,
+    color var(--duration-fast) ease-out !important;
+}
+
+/* Custom scrollbar - WebKit */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+
+/* Custom scrollbar - Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+/* Native date input — manuscript treatment.
+   The popup calendar itself is browser UI and cannot be themed; we can
+   only restyle the input box and the small picker-toggle indicator. */
+input[type="date"].manuscript-date-input,
+input[type="datetime-local"].manuscript-date-input,
+input[type="month"].manuscript-date-input,
+input[type="time"].manuscript-date-input {
+  color-scheme: light;
+  font-feature-settings: "lnum" 1; /* lining numerals so dates align */
+}
+input[type="date"].manuscript-date-input::-webkit-calendar-picker-indicator,
+input[type="datetime-local"].manuscript-date-input::-webkit-calendar-picker-indicator,
+input[type="month"].manuscript-date-input::-webkit-calendar-picker-indicator,
+input[type="time"].manuscript-date-input::-webkit-calendar-picker-indicator {
+  /* Recolor the default black calendar glyph toward gilt. */
+  filter: sepia(1) saturate(1.4) hue-rotate(-12deg) brightness(0.85);
+  opacity: 0.65;
+  cursor: pointer;
+  transition: opacity 150ms ease;
+}
+input[type="date"].manuscript-date-input::-webkit-calendar-picker-indicator:hover,
+input[type="datetime-local"].manuscript-date-input::-webkit-calendar-picker-indicator:hover,
+input[type="month"].manuscript-date-input::-webkit-calendar-picker-indicator:hover,
+input[type="time"].manuscript-date-input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+input[type="date"].manuscript-date-input::-webkit-datetime-edit,
+input[type="datetime-local"].manuscript-date-input::-webkit-datetime-edit,
+input[type="month"].manuscript-date-input::-webkit-datetime-edit {
+  color: var(--color-ink-brown);
+  font-family: var(--font-serif);
+}
+input[type="date"].manuscript-date-input::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+/* Scriptorium-specific utility classes */
+.canon-text {
+  font-family: var(--font-serif);
+  @apply text-lg leading-relaxed;
+}
+
+.technical-text {
+  font-family: var(--font-serif);
+  @apply text-sm tracking-wider;
+}
+
+/* ============================================================
+   SEMANTIC TOKENS
+   Use these instead of raw Tailwind colors for automatic
+   dark mode support. Controlled by the ESLint
+   local/no-hardcoded-colors rule (currently deactivated).
+   ============================================================ */
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  /* ---- Text hierarchy ---- */
+  .text-primary   { @apply text-charcoal-300 dark:text-parchment-100; }
+  .text-label     { @apply text-charcoal-100 dark:text-parchment-200; }
+  .text-secondary { @apply text-charcoal-100/70 dark:text-parchment-200/70; }
+  .text-muted     { @apply text-charcoal-100/50 dark:text-parchment-200/50; }
+  .text-subtle    { @apply text-charcoal-100/30 dark:text-parchment-200/40; }
+
+  /* ---- Status text ---- */
+  .text-success { color: #3d5a2f; } .dark .text-success { color: #a3b88a; }
+  .text-warning { color: #8b6428; } .dark .text-warning { color: #d4af37; }
+  .text-error   { color: #9a1f1a; } .dark .text-error   { color: #d97570; }
+  .text-info    { color: #3a2a18; } .dark .text-info    { color: #f4f1ea; }
+
+  /* ---- Status backgrounds (subtle) ---- */
+  .bg-success-subtle { background-color: #ebe7c8; } .dark .bg-success-subtle { background-color: rgba(61, 90, 47, 0.18); }
+  .bg-warning-subtle { background-color: #f7eccd; } .dark .bg-warning-subtle { background-color: rgba(184, 137, 58, 0.18); }
+  .bg-error-subtle   { background-color: #f3dcd0; } .dark .bg-error-subtle   { background-color: rgba(154, 31, 26, 0.18); }
+  .bg-info-subtle    { background-color: rgba(184, 137, 58, 0.08); } .dark .bg-info-subtle { background-color: rgba(184, 137, 58, 0.1); }
+
+  /* ---- Surface backgrounds (manuscript palette) ----
+     Semantic surface tokens, remapped onto the parchment / gilt / ink-brown
+     palette so radix primitives and shared components inherit the
+     illuminated look without per-component edits. */
+  .bg-elevated  { background-color: var(--color-card-surface); }
+  .bg-surface   { background-color: var(--color-card-surface); }
+  .bg-section   { background-color: var(--color-card-surface-ghost); }
+  .bg-sunken    { background-color: rgba(184, 137, 58, 0.12); /* gilt wash for hover/open */ }
+  .bg-inset     { background-color: var(--color-card-surface-ghost); }
+  .bg-track     { background-color: rgba(184, 137, 58, 0.3); /* gilt rule for separators */ }
+  .bg-overlay   { background-color: rgba(58, 42, 24, 0.35); /* ink-brown scrim */ }
+  .bg-glass     { background-color: var(--color-card-surface); }
+  .bg-input     { background-color: var(--color-card-surface); }
+  .bg-toggle-off { background-color: rgba(58, 42, 24, 0.12); }
+  .dark .bg-elevated,
+  .dark .bg-surface,
+  .dark .bg-glass,
+  .dark .bg-input { background-color: rgba(255, 252, 245, 0.05); }
+  .dark .bg-section,
+  .dark .bg-inset { background-color: rgba(255, 252, 245, 0.04); }
+  .dark .bg-sunken { background-color: rgba(184, 137, 58, 0.2); }
+  .dark .bg-track  { background-color: rgba(184, 137, 58, 0.4); }
+
+  /* ---- Border tokens (manuscript palette) ---- */
+  .border-default { border-color: rgba(184, 137, 58, 0.3); }
+  .border-subtle  { border-color: rgba(184, 137, 58, 0.18); }
+  .border-strong  { border-color: rgba(184, 137, 58, 0.55); }
+
+  .border-glass   { border-color: rgba(184, 137, 58, 0.55); }
+  .dark .border-default { border-color: rgba(184, 137, 58, 0.35); }
+  .dark .border-subtle  { border-color: rgba(184, 137, 58, 0.2); }
+  .dark .border-strong  { border-color: rgba(184, 137, 58, 0.6); }
+  .dark .border-glass   { border-color: rgba(184, 137, 58, 0.6); }
+
+  .border-success { border-color: rgba(61, 90, 47, 0.4); } .dark .border-success { border-color: rgba(61, 90, 47, 0.45); }
+  .border-warning { border-color: rgba(184, 137, 58, 0.55); } .dark .border-warning { border-color: rgba(184, 137, 58, 0.5); }
+  .border-error   { border-color: rgba(154, 31, 26, 0.45); } .dark .border-error   { border-color: rgba(154, 31, 26, 0.5); }
+  .border-info    { border-color: rgba(184, 137, 58, 0.32); } .dark .border-info    { border-color: rgba(184, 137, 58, 0.35); }
+
+  /* ---- Divider tokens ---- */
+  .divide-default { @apply divide-charcoal-300/10 dark:divide-parchment-100/10; }
+  .divide-subtle  { @apply divide-charcoal-300/5 dark:divide-parchment-100/5; }
+
+  /* ---- Hover surfaces (gilt wash) ---- */
+  .hover-surface        { transition: background-color 150ms ease; }
+  .hover-surface:hover  { background-color: rgba(184, 137, 58, 0.12); }
+  .hover-surface-subtle:hover { background-color: rgba(184, 137, 58, 0.08); }
+  .hover-surface-strong:hover { background-color: rgba(184, 137, 58, 0.18); }
+
+  .hover-error-subtle:hover   { background-color: rgba(154, 31, 26, 0.08); }
+  .hover-destructive:hover    { background-color: var(--color-rubric); color: var(--p-100); }
+
+  /* ---- Hover text (rubric on hover, ink-brown idle) ---- */
+  .hover-text-primary:hover { color: var(--color-rubric); }
+  .hover-text-label:hover   { color: var(--color-ink-brown); }
+  .hover-text-secondary:hover { color: rgba(58, 42, 24, 0.85); }
+
+  /* ---- Focus states ---- */
+  .focus-surface:focus      { background-color: rgba(184, 137, 58, 0.15); }
+  .focus-text-primary:focus { color: var(--color-rubric); }
+  /* ---- Active states ---- */
+  .active-surface:active { background-color: rgba(184, 137, 58, 0.22); }
+}
+
+/* ============================================================
+   ILLUMINATED MANUSCRIPT LAYER (light theme only)
+   Procedural parchment grain, foxing stains, edge vignette,
+   ledger ruling, and rubric/dropcap utilities.
+   These layers no-op in dark mode (filters/textures hide).
+   ============================================================ */
+
+@layer utilities {
+  /* Texture layers. Each utility just paints a filtered pseudo across its
+     host element. The host needs a positioned ancestor; in <Charter /> each
+     layer is a position:absolute inset-0 div, which provides that itself. */
+
+  .parchment-grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+    filter: url(#parchment-grain);
+    background: #fff;
+  }
+
+  .parchment-fibre::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.25;
+    mix-blend-mode: multiply;
+    filter: url(#parchment-fibre);
+    background: #fff;
+  }
+
+  .parchment-stains::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.22;
+    mix-blend-mode: multiply;
+    filter: url(#parchment-stains);
+    background: #fff;
+  }
+
+  .parchment-vignette::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        ellipse at center,
+        transparent 55%,
+        rgba(120, 80, 30, 0.10) 85%,
+        rgba(80, 50, 15, 0.22) 100%
+      );
+  }
+
+  /* Composed: page-level parchment surface — pale cream, only slightly
+     warmer than --p-100. Texture layers add the aged character on top. */
+  .parchment-surface {
+    background-color: #faf3e3;
+    background-image:
+      radial-gradient(ellipse at top left, rgba(255, 252, 240, 0.5), transparent 60%),
+      radial-gradient(ellipse at bottom right, rgba(238, 224, 188, 0.25), transparent 65%);
+  }
+
+  /* Ledger ruling — repeating horizontal lines for tabular content */
+  .ledger-rule {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent calc(1.75rem - 1px),
+      rgba(154, 31, 26, 0.22) calc(1.75rem - 1px),
+      rgba(154, 31, 26, 0.22) 1.75rem
+    );
+    line-height: 1.75rem;
+  }
+
+  /* Rubricated text */
+  .rubric {
+    color: var(--color-rubric);
+    font-family: var(--font-display);
+  }
+
+  /* Drop-cap baseline (component layers art on top) */
+  .dropcap::first-letter {
+    font-family: var(--font-display);
+    color: var(--color-rubric);
+    font-size: 3.4em;
+    line-height: 0.85;
+    float: left;
+    padding: 0.05em 0.12em 0 0;
+    margin-right: 0.05em;
+  }
+
+  /* Display utilities */
+  .font-display { font-family: var(--font-display); }
+  .font-insular { font-family: var(--font-insular); }
+
+  .text-rubric { color: var(--color-rubric); }
+  .text-gilt { color: var(--color-gilt); }
+  .text-ink-brown { color: var(--color-ink-brown); }
+  .border-gilt { border-color: var(--color-gilt); }
+}
+
+/* Hide ornamental layers in dark mode — they assume a light substrate */
+.dark .parchment-grain::before,
+.dark .parchment-fibre::before,
+.dark .parchment-stains::after,
+.dark .parchment-vignette::after { display: none; }
+.dark .parchment-surface { background-image: none; }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* ─── Ceremonial spinners ───────────────────────────────────────── */
+
+/* 1 · Hourglass — each cycle starts empty. Sand streams through the
+   neck and the bottom pile grows; once full, the assembly flips 180°.
+   The pile fades out across the whole rotation so the loop-boundary
+   snap (full → empty + 180°→0°) is invisible. */
+@keyframes hourglassFlip {
+  0%, 75%   { transform: rotate(0deg); }
+  90%, 100% { transform: rotate(180deg); }
+}
+@keyframes streamGate {
+  0%, 4%    { opacity: 0; }
+  8%, 72%   { opacity: 1; }
+  76%, 100% { opacity: 0; }
+}
+@keyframes grainFall {
+  0%   { transform: translateY(0);    opacity: 0; }
+  20%  { opacity: 0.85; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(7px);  opacity: 0; }
+}
+.hourglass-flip {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hourglassFlip 2.7s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+.hourglass-stream {
+  animation: streamGate 2.7s linear infinite;
+}
+.grain {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: grainFall 0.5s linear infinite;
+}
+.g1 { animation-delay: 0s; }
+.g2 { animation-delay: 0.13s; }
+.g3 { animation-delay: 0.26s; }
+.g4 { animation-delay: 0.39s; }
+
+/* 2 · Astrolabe — mater & climate plate are fixed; only the rete (sky)
+   drifts and the alidade (sighting rule) sweeps. Same direction so the
+   instrument reads as calm rather than mechanical. */
+@keyframes astroSpin { to { transform: rotate(360deg); } }
+.astro-rete {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: astroSpin 14s linear infinite;
+}
+.astro-alidade {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: astroSpin 6s linear infinite;
+}
+
+/* 3 · Unfurling Scroll */
+@keyframes scrollUnroll {
+  0%, 6%, 94%, 100% { transform: scaleX(0); }
+  35%, 65%          { transform: scaleX(1); }
+}
+@keyframes scrollLeftRoll {
+  0%, 6%, 94%, 100% { transform: translateX(0); }
+  35%, 65%          { transform: translateX(-30px); }
+}
+@keyframes scrollRightRoll {
+  0%, 6%, 94%, 100% { transform: translateX(0); }
+  35%, 65%          { transform: translateX(30px); }
+}
+@keyframes scrollGlyphFade {
+  0%, 38%   { opacity: 0; }
+  48%, 60%  { opacity: 1; }
+  72%, 100% { opacity: 0; }
+}
+@keyframes ribbonSway {
+  0%, 100% { transform: rotate(-9deg); }
+  50%      { transform: rotate(9deg); }
+}
+.scroll-parchment {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: scrollUnroll 3.2s ease-in-out infinite;
+}
+.scroll-left {
+  animation: scrollLeftRoll 3.2s ease-in-out infinite;
+}
+.scroll-right {
+  animation: scrollRightRoll 3.2s ease-in-out infinite;
+}
+.scroll-glyph {
+  animation: scrollGlyphFade 3.2s ease-in-out infinite;
+}
+.scroll-ribbon {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: ribbonSway 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hourglass-flip, .hourglass-stream, .grain,
+  .astro-rete, .astro-alidade,
+  .scroll-parchment, .scroll-left, .scroll-right,
+  .scroll-glyph, .scroll-ribbon { animation: none; }
+}
+
