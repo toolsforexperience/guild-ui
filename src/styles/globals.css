@@ -48,7 +48,7 @@
   /* Fonts */
   --font-serif: "EB Garamond", serif;
   --font-display: "EB Garamond", serif;
-  --font-insular: "UnifrakturMaguntia", "Cardo", "EB Garamond", serif;
+  --font-insular: "Cardo", "EB Garamond", serif;
 
   /* Type scale — bumped so the smallest tier is still comfortably
      readable on parchment. text-sm is the floor for body/meta. */

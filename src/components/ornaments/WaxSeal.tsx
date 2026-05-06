@@ -14,8 +14,8 @@ export interface WaxSealProps {
 
 export function WaxSeal({
   size = 96,
-  legend = "✠ SIGILLVM · GVILDAE · MMXXVI ✠",
-  device = "✠",
+  legend = "⚜ SIGILLVM · GVILDAE · MMXXVI ⚜",
+  device = "⚜",
   className = "",
 }: WaxSealProps) {
   // Irregular wax-blob path — used for shadow + body so the silhouette matches.

@@ -6,14 +6,15 @@ interface MicroBadgeProps {
     className?: string;
 }
 
-// domain colors — status badge variants
+// Manuscript-tuned status variants — green/red/yellow share semantic tokens
+// with CalloutBox; blue & purple are dusky tones inspired by the same palette.
 const variantClasses: Record<NonNullable<MicroBadgeProps['variant']>, string> = {
-    default: 'bg-sunken text-label',
-    green: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-    red: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
-    yellow: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
-    blue: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
-    purple: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400',
+    default: 'bg-sunken text-label border border-ink-brown/15',
+    green: 'bg-success-subtle text-success border border-success',
+    red: 'bg-error-subtle text-error border border-error',
+    yellow: 'bg-warning-subtle text-warning border border-warning',
+    blue: 'bg-[#dde0ea] text-[#3a4a6e] border border-[rgba(58,74,110,0.4)] dark:bg-[rgba(58,74,110,0.18)] dark:text-[#a8b3cf] dark:border-[rgba(168,179,207,0.35)]',
+    purple: 'bg-[#e8d8de] text-[#5a2e4a] border border-[rgba(90,46,74,0.4)] dark:bg-[rgba(90,46,74,0.18)] dark:text-[#c9a8b8] dark:border-[rgba(201,168,184,0.35)]',
 };
 
 export function MicroBadge({ children, variant = 'default', className = '' }: MicroBadgeProps) {
