@@ -61,7 +61,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
                     onChange={e => onValueChange(e.target.value)}
                     placeholder={placeholder}
                     aria-label="Search"
-                    className={`w-full ${config.inputPadding} ${showClear ? 'pr-8' : ''} border border-default  bg-elevated text-primary placeholder:text-subtle transition-colors ${className}`}
+                    className={`w-full ${config.inputPadding} ${showClear ? 'pr-8' : ''} border border-default bg-elevated text-primary placeholder:text-subtle focus:outline-none focus:ring-2 focus:ring-gilt/40 focus:border-gilt/70 transition-colors ${className}`}
                     {...props}
                 />
                 {showClear && (

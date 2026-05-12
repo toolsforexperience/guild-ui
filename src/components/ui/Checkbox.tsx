@@ -38,12 +38,12 @@ export function Checkbox({ className, indeterminate, disabled, ...props }: Check
             <span
                 aria-hidden
                 className={cn(
-                    'absolute inset-0 border bg-[#fbf3df]',
-                    'border-[rgba(58,42,24,0.55)]',
+                    'absolute inset-0 border bg-chit',
+                    'border-ink-brown/55',
                     'transition-colors duration-150',
-                    'peer-hover:border-[rgba(58,42,24,0.8)] peer-hover:bg-[#f7ecc8]',
+                    'peer-hover:border-ink-brown/80 peer-hover:bg-chit-hover',
                     'peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gilt/55',
-                    'peer-checked:border-[rgba(58,42,24,0.7)]',
+                    'peer-checked:border-ink-brown/70',
                 )}
                 style={{
                     filter:

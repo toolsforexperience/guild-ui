@@ -13,6 +13,7 @@ export { DatePicker } from './DatePicker';
 export { Checkbox } from './Checkbox';
 export { Textarea } from './Textarea';
 export { Toggle } from './Toggle';
+export { InkMarkToggle, BeadToggle, InkToggle } from './ToggleAlternatives';
 export { IconButton } from './IconButton';
 export { FieldLabel } from './FieldLabel';
 export { InputField, TextareaField, SelectField } from './FormField';
@@ -39,6 +40,13 @@ export { IlluminatedHeader } from './IlluminatedHeader';
 export { DropCap } from './DropCap';
 export { Cartouche } from './Cartouche';
 export { KnotDivider } from './KnotDivider';
+export {
+  FlourishDivider,
+  VineDivider,
+  AsterismDivider,
+  InkDotsDivider,
+  QuillDivider,
+} from './HandDrawnDividers';
 export { Marginalia } from './Marginalia';
 export { ProseSection } from './ProseSection';
 export { Paragraphs, splitParagraphs } from './Paragraphs';

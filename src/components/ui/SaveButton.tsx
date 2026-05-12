@@ -58,7 +58,7 @@ export function SaveButton({
                 >
                     <span
                         aria-hidden
-                        className="absolute inset-0 border border-[rgba(58,42,24,0.45)] bg-[#fbf3df] transition-colors duration-150 group-hover:border-[rgba(58,42,24,0.7)] group-hover:bg-[#f7ecc8]"
+                        className="absolute inset-0 border border-ink-brown/45 bg-chit transition-colors duration-150 group-hover:border-ink-brown/70 group-hover:bg-chit-hover"
                         style={{ filter: PAPER_FILTER }}
                     />
                     <RotateCcw size={13} className="relative" />
@@ -83,8 +83,8 @@ export function SaveButton({
                     className={cn(
                         'absolute inset-0 border transition-colors duration-150',
                         disabled
-                            ? 'border-[rgba(110,20,16,0.35)] bg-[#b85a55]'
-                            : 'border-[#5a1410] bg-[#9a1f1a] group-hover:bg-[#6e1410]',
+                            ? 'border-rubric-deep/35 bg-rubric-faded'
+                            : 'border-rubric-darker bg-rubric group-hover:bg-rubric-deep',
                     )}
                     style={{ filter: disabled ? PAPER_FILTER : RUBRIC_FILTER }}
                 />

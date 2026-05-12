@@ -27,7 +27,8 @@ interface SelectFieldProps extends BaseFieldProps {
 }
 
 const descriptionClasses = 'text-sm text-subtle mt-1';
-const inputClasses = 'w-full px-3 py-2 border border-strong  bg-input text-primary';
+const inputClasses =
+    'w-full px-3 py-2 border border-strong bg-input text-primary placeholder:text-subtle focus:outline-none focus:ring-2 focus:ring-gilt/40 focus:border-gilt/70 transition-colors';
 
 export function InputField({ id, label, description, icon, mono, className, ...props }: InputFieldProps) {
     return (

@@ -7,14 +7,16 @@ interface MicroBadgeProps {
 }
 
 // Manuscript-tuned status variants — green/red/yellow share semantic tokens
-// with CalloutBox; blue & purple are dusky tones inspired by the same palette.
+// with CalloutBox. The historically-named "blue" variant uses verdigris
+// (aged-copper pigment) so nothing on the page renders as browser blue;
+// "purple" stays as a dusky rose lifted from the same palette.
 const variantClasses: Record<NonNullable<MicroBadgeProps['variant']>, string> = {
     default: 'bg-sunken text-label border border-ink-brown/15',
     green: 'bg-success-subtle text-success border border-success',
     red: 'bg-error-subtle text-error border border-error',
     yellow: 'bg-warning-subtle text-warning border border-warning',
-    blue: 'bg-[#dde0ea] text-[#3a4a6e] border border-[rgba(58,74,110,0.4)] dark:bg-[rgba(58,74,110,0.18)] dark:text-[#a8b3cf] dark:border-[rgba(168,179,207,0.35)]',
-    purple: 'bg-[#e8d8de] text-[#5a2e4a] border border-[rgba(90,46,74,0.4)] dark:bg-[rgba(90,46,74,0.18)] dark:text-[#c9a8b8] dark:border-[rgba(201,168,184,0.35)]',
+    blue: 'bg-verdigris-soft text-verdigris border border-verdigris/40 dark:bg-verdigris/20 dark:text-verdigris-dark dark:border-verdigris-dark/35',
+    purple: 'bg-mauve-soft text-mauve border border-mauve/40 dark:bg-mauve/20 dark:text-mauve-dark dark:border-mauve-dark/35',
 };
 
 export function MicroBadge({ children, variant = 'default', className = '' }: MicroBadgeProps) {

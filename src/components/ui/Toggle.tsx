@@ -84,8 +84,8 @@ export function Toggle({
                 <span
                     aria-hidden
                     className={cn(
-                        'absolute inset-0 border bg-[#fbf3df] transition-colors duration-200',
-                        checked ? 'border-[rgba(58,42,24,0.65)]' : 'border-[rgba(58,42,24,0.50)]',
+                        'absolute inset-0 border bg-chit transition-colors duration-200',
+                        checked ? 'border-ink-brown/65' : 'border-ink-brown/50',
                     )}
                     style={{ filter: PAPER_FILTER }}
                 />
@@ -98,8 +98,8 @@ export function Toggle({
                         sz.thumb,
                         checked ? sz.on : sz.off,
                         checked
-                            ? 'border-[#5a1410] bg-[#9a1f1a]'
-                            : 'border-[rgba(58,42,24,0.55)] bg-[#f4ead0]',
+                            ? 'border-rubric-darker bg-rubric'
+                            : 'border-ink-brown/55 bg-chit-soft',
                     )}
                     style={{ filter: THUMB_FILTER }}
                 />

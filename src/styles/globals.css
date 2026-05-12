@@ -24,10 +24,27 @@
   /* Illuminated-manuscript palette (light theme only) */
   --color-rubric: #9a1f1a;
   --color-rubric-deep: #6e1410;
+  --color-rubric-darker: #5a1410;   /* outline on rubric chits (Toggle, SaveButton) */
+  --color-rubric-faded: #b85a55;    /* disabled rubric — washed-out red */
   --color-gilt: #b8893a;
   --color-gilt-bright: #d4af37;
   --color-ink-brown: #3a2a18;
   --color-parchment-edge: #e8d9b3;
+
+  /* Paper-chit surface — a touch warmer than parchment-100, used by the
+     small "cut paper" affordances (Toggle, Checkbox, SaveButton discard). */
+  --color-chit: #fbf3df;
+  --color-chit-hover: #f7ecc8;
+  --color-chit-soft: #f4ead0;
+
+  /* MicroBadge accent variants — manuscript-tuned in place of bright web hues.
+     verdigris ≈ aged-copper pigment; mauve ≈ dusky rose/aubergine. */
+  --color-verdigris: #2e4a40;
+  --color-verdigris-soft: #dbe3df;
+  --color-verdigris-dark: #a8c3b8;
+  --color-mauve: #5a2e4a;
+  --color-mauve-soft: #e8d8de;
+  --color-mauve-dark: #c9a8b8;
 
   /* Card surface tones — match the sidebar (.parchment-surface,
      #faf3e3) so cards feel like the same paper, not a stack of
@@ -210,6 +227,45 @@
   --border: 220 13% 18%;
   --input: 220 13% 18%;
   --ring: 40 60% 97%;
+}
+
+/* Text selection — manuscript-toned highlight (gilt wash on ink-brown).
+   Overrides the browser default blue selection so highlighted text on
+   inputs, prose, and code reads as part of the same palette. */
+::selection {
+  background-color: rgba(184, 137, 58, 0.35);
+  color: var(--c-300);
+}
+::-moz-selection {
+  background-color: rgba(184, 137, 58, 0.35);
+  color: var(--c-300);
+}
+
+/* Keyboard focus — replace the browser-default blue outline with a
+   manuscript-toned gilt ring on any interactive element that hasn't opted
+   into its own focus styles. `:where()` keeps specificity at 0 so any
+   component-level `focus:ring-*` / `focus:outline-*` rules still win. */
+:where(button, a, summary, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid rgba(184, 137, 58, 0.55);
+  outline-offset: 2px;
+}
+
+/* Chrome/Safari autofill — suppress the pale-blue default background and
+   reflect the manuscript palette instead. Uses the inset-shadow trick because
+   the browser ignores `background-color` on autofilled inputs. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--p-100) inset;
+  box-shadow: 0 0 0 1000px var(--p-100) inset;
+  -webkit-text-fill-color: var(--c-300);
+  caret-color: var(--c-300);
+  transition: background-color 9999s ease-out 0s;
 }
 
 /* Prevent horizontal overflow */
